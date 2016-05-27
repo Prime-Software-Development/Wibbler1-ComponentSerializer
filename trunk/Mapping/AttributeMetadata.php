@@ -8,12 +8,15 @@ class AttributeMetadata extends BaseAttributeMetadata {
 
 	public $callback;
 
+	public $flatten;
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function __construct($name)
 	{
 		$this->name = $name;
+		$this->flatten = false;
 	}
 
 	/**
@@ -28,6 +31,18 @@ class AttributeMetadata extends BaseAttributeMetadata {
 		foreach ($attributeMetadata->getCallbacks() as $callback) {
 			$this->addCallback($callback);
 		}
+	}
+
+	// if this attribute is an array/object
+	//whether to merge it into parent object array
+	public function setFlatten( $flatten = false )
+	{
+		$this->flatten = $flatten;
+	}
+
+	public function getFlatten()
+	{
+		return $this->flatten;
 	}
 
 	public function setCallback( $callback )
