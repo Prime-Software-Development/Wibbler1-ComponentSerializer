@@ -50,6 +50,14 @@ class PhpLoader implements LoaderInterface
 			foreach ($attribute['group'] as $group) {
 				$attributeMetadata->addGroup((string) $group);
 			}
+
+			if(isset($attribute['convert_name'])) {
+				$attributeMetadata->setConvertedName( $attribute['convert_name'] );
+			}
+
+			if(isset($attribute['flatten'])) {
+				$attributeMetadata->setFlatten( $attribute['flatten'] );
+			}
 		}
 
 		return true;
