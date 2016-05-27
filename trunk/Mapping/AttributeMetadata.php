@@ -10,6 +10,8 @@ class AttributeMetadata extends BaseAttributeMetadata {
 
 	public $flatten;
 
+	public $converted_name;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -17,6 +19,7 @@ class AttributeMetadata extends BaseAttributeMetadata {
 	{
 		$this->name = $name;
 		$this->flatten = false;
+		$this->converted_name = false;
 	}
 
 	/**
@@ -43,6 +46,16 @@ class AttributeMetadata extends BaseAttributeMetadata {
 	public function getFlatten()
 	{
 		return $this->flatten;
+	}
+
+	public function setConvertedName( $name )
+	{
+		$this->converted_name = $name;
+	}
+
+	public function getConvertedName()
+	{
+		return $this->converted_name;
 	}
 
 	public function setCallback( $callback )

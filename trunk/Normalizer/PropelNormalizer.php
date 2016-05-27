@@ -63,10 +63,6 @@ class PropelNormalizer extends AbstractNormalizer
 		$data = array();
 		$attributes_meta = $this->getAttributes($object, $context);
 
-		if ($this->nameConverter) {
-			$this->nameConverter->setObject( $object, $context );
-		}
-
 		foreach ($attributes_meta as $attribute_meta) {
 			$attribute = $attribute_meta->getName();
 
@@ -89,6 +85,7 @@ class PropelNormalizer extends AbstractNormalizer
 			}
 
 			if ($this->nameConverter) {
+				$this->nameConverter->setAttributeMetadata( $attribute_meta );
 				$attribute = $this->nameConverter->normalize($attribute);
 			}
 
