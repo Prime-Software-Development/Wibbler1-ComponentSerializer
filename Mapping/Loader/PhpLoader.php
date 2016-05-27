@@ -15,8 +15,10 @@ use Symfony\Component\Serializer\Mapping\Loader\LoaderInterface;
 
 use Symfony\Component\Config\Util\XmlUtils;
 use Symfony\Component\Serializer\Exception\MappingException;
-use Symfony\Component\Serializer\Mapping\AttributeMetadata;
+#use Symfony\Component\Serializer\Mapping\AttributeMetadata;
 use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
+
+use TrunkSoftware\Component\Serializer\Mapping\AttributeMetadata;
 
 /**
  * Loads XML mapping files.
@@ -25,50 +27,31 @@ use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
  */
 class PhpLoader implements LoaderInterface
 {
-    /**
-     * An array of {@class \SimpleXMLElement} instances.
-     *
-     * @var \SimpleXMLElement[]|null
-     */
-    private $classes;
-
-	private $object;
-
-	public function __construct($object)
+	public function loadClassMetadata(ClassMetadataInterface $classMetadata)
 	{
-		if (!is_object($object)) {
-			throw new MappingException(sprintf('Mapping value passed in is not an object'));
+		// only custom propel attribute metadata loader
+		if( ! $classMetadata->getReflectionClass()->hasMethod('getAttributesMetadata') )
+			return true;
+
+		$attributesMetadata = $classMetadata->getAttributesMetadata();
+
+		$attributes = $classMetadata->getReflectionClass()->getMethod('getAttributesMetadata')->invoke( null );
+
+		foreach ($attributes as $attribute) {
+			$attributeName = (string) $attribute['name'];
+
+			if (isset($attributesMetadata[$attributeName])) {
+				$attributeMetadata = $attributesMetadata[$attributeName];
+			} else {
+				$attributeMetadata = new AttributeMetadata($attributeName);
+				$classMetadata->addAttributeMetadata($attributeMetadata);
+			}
+
+			foreach ($attribute['group'] as $group) {
+				$attributeMetadata->addGroup((string) $group);
+			}
 		}
 
-		if (!method_exists($object,'getAttributesMetadata')) {
-			throw new MappingException(sprintf('Mapping value passed in does not contain metadata'));
-		}
-
-		$this->object = $object;
+		return true;
 	}
-
-    /**
-     * {@inheritdoc}
-     */
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata)
-    {
-        $attributesMetadata = $classMetadata->getAttributesMetadata();
-
-	    foreach ($object = $this->object->getAttributesMetadata() as $attribute) {
-		    $attributeName = (string) $attribute['name'];
-
-		    if (isset($attributesMetadata[$attributeName])) {
-			    $attributeMetadata = $attributesMetadata[$attributeName];
-		    } else {
-			    $attributeMetadata = new AttributeMetadata($attributeName);
-			    $classMetadata->addAttributeMetadata($attributeMetadata);
-		    }
-
-		    foreach ($attribute['group'] as $group) {
-			    $attributeMetadata->addGroup((string) $group);
-		    }
-	    }
-
-        return true;
-    }
 }

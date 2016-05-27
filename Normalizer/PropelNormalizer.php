@@ -61,13 +61,15 @@ class PropelNormalizer extends AbstractNormalizer
 		}
 
 		$data = array();
-		$attributes = $this->getAttributes($object, $context);
+		$attributes_meta = $this->getAttributes($object, $context);
 
 		if ($this->nameConverter) {
 			$this->nameConverter->setObject( $object, $context );
 		}
 
-		foreach ($attributes as $attribute) {
+		foreach ($attributes_meta as $attribute_meta) {
+			$attribute = $attribute_meta->getName();
+
 			if (in_array($attribute, $this->ignoredAttributes)) {
 				continue;
 			}
@@ -90,7 +92,13 @@ class PropelNormalizer extends AbstractNormalizer
 				$attribute = $this->nameConverter->normalize($attribute);
 			}
 
-			$data[$attribute] = $attributeValue;
+
+			// whether to merge child object properties into parent data array
+			if( $attribute_meta->getFlatten() ) {
+				$data = array_merge( $data, $attributeValue );
+			} else{
+				$data[$attribute] = $attributeValue;
+			}
 		}
 
 		return $data;
@@ -165,7 +173,8 @@ class PropelNormalizer extends AbstractNormalizer
 			return $this->attributesCache[$key];
 		}
 
-		$allowedAttributes = $this->getAllowedAttributes($object, $context, true);
+		#$allowedAttributes = $this->getAllowedAttributes($object, $context, true);
+		$allowedAttributes = $this->getAllowedAttributes($object, $context);
 
 		if (false !== $allowedAttributes) {
 			if ($context['cache_key']) {
