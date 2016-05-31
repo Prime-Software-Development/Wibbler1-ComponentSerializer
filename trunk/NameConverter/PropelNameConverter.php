@@ -14,7 +14,7 @@ class PropelNameConverter implements NameConverterInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function normalize(AttributeMetadataInterface $attributesMetadata)
+	public function normalize($attributesMetadata)
 	{
 		if( $attributesMetadata->getConvertName() )
 			return $attributesMetadata->getConvertName();
