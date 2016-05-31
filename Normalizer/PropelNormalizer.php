@@ -76,6 +76,10 @@ class PropelNormalizer extends AbstractNormalizer
 				$attributeValue = call_user_func($this->callbacks[$attribute], $attributeValue);
 			}
 
+			if ($callback = $attribute_meta->getCallback()) {
+				$attributeValue = call_user_func($callback, $attributeValue);
+			}
+
 			if (null !== $attributeValue && !is_scalar($attributeValue)) {
 				if (!$this->serializer instanceof NormalizerInterface) {
 					throw new LogicException(sprintf('Cannot normalize attribute "%s" because injected serializer is not a normalizer', $attribute));
@@ -84,16 +88,13 @@ class PropelNormalizer extends AbstractNormalizer
 				$attributeValue = $this->serializer->normalize($attributeValue, $format, $context);
 			}
 
-			if ($this->nameConverter) {
-				$this->nameConverter->setAttributeMetadata( $attribute_meta );
-				$attribute = $this->nameConverter->normalize($attribute);
-			}
-
-
 			// whether to merge child object properties into parent data array
 			if( $attribute_meta->getFlatten() ) {
 				$data = array_merge( $data, $attributeValue );
 			} else{
+				if ($this->nameConverter) {
+					$attribute = $this->nameConverter->normalize($attribute_meta);
+				}
 				$data[$attribute] = $attributeValue;
 			}
 		}

@@ -64,4 +64,9 @@ class AttributeMetadata extends BaseAttributeMetadata {
 
 		return $this;
 	}
+
+	public function getCallback()
+	{
+		return $this->callback;
+	}
 }

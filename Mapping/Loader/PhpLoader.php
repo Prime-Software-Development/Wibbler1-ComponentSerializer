@@ -36,6 +36,7 @@ class PhpLoader implements LoaderInterface
 		$attributesMetadata = $classMetadata->getAttributesMetadata();
 
 		$attributes = $classMetadata->getReflectionClass()->getMethod('getAttributesMetadata')->invoke( null );
+		$callbacks = $classMetadata->getReflectionClass()->hasMethod('getAttributesCallbacks') ? $classMetadata->getReflectionClass()->getMethod('getAttributesCallbacks')->invoke( null ) : NULL;
 
 		foreach ($attributes as $attribute) {
 			$attributeName = (string) $attribute['name'];
@@ -57,6 +58,10 @@ class PhpLoader implements LoaderInterface
 
 			if(isset($attribute['flatten'])) {
 				$attributeMetadata->setFlatten( $attribute['flatten'] );
+			}
+
+			if( $callbacks && isset($callbacks[ $attributeName ]) ){
+				$attributeMetadata->setCallback( $callbacks[ $attributeName ] );
 			}
 		}
 
