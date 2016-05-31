@@ -35,8 +35,10 @@ class PhpLoader implements LoaderInterface
 
 		$attributesMetadata = $classMetadata->getAttributesMetadata();
 
+		// load attribute meta data for a given propel class
 		$attributes = $classMetadata->getReflectionClass()->getMethod('getAttributesMetadata')->invoke( null );
-		$callbacks = $classMetadata->getReflectionClass()->hasMethod('getAttributesCallbacks') ? $classMetadata->getReflectionClass()->getMethod('getAttributesCallbacks')->invoke( null ) : NULL;
+		// load callbacks for the given propel class
+		$callbacks = $classMetadata->getReflectionClass()->hasMethod('getAttributeCallbacks') ? $classMetadata->getReflectionClass()->getMethod('getAttributeCallbacks')->invoke( null ) : NULL;
 
 		foreach ($attributes as $attribute) {
 			$attributeName = (string) $attribute['name'];
@@ -60,6 +62,8 @@ class PhpLoader implements LoaderInterface
 				$attributeMetadata->setFlatten( $attribute['flatten'] );
 			}
 
+			// there really is only one callback
+			// @TODO implement callback per group
 			if( $callbacks && isset($callbacks[ $attributeName ]) ){
 				$attributeMetadata->setCallback( $callbacks[ $attributeName ] );
 			}
