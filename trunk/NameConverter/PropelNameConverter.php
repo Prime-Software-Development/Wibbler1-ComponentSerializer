@@ -11,26 +11,15 @@ class PropelNameConverter implements NameConverterInterface
 	private $attributeMetadata;
 	private $context;
 
-	public function setAttributeMetadata( AttributeMetadataInterface $attributesMetadata)
-	{
-		$this->attributeMetadata = array();
-
-		if ( $converted_name = $attributesMetadata->getConvertedName() ) {
-			$this->attributeMetadata[ $attributesMetadata->getName() ] = $converted_name;
-		}
-
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
-	public function normalize($propertyName)
+	public function normalize(AttributeMetadataInterface $attributesMetadata)
 	{
-		if ( isset($this->attributeMetadata[ $propertyName ] ) ) {
-			return $this->attributeMetadata[ $propertyName ];
-		}
+		if( $attributesMetadata->getConvertName() )
+			return $attributesMetadata->getConvertName();
 
-		return $propertyName;
+		return $attributesMetadata->getName();
 	}
 
 	/**
