@@ -37,8 +37,6 @@ class PhpLoader implements LoaderInterface
 
 		// load attribute meta data for a given propel class
 		$attributes = $classMetadata->getReflectionClass()->getMethod('getAttributesMetadata')->invoke( null );
-		// load callbacks for the given propel class
-		$callbacks = $classMetadata->getReflectionClass()->hasMethod('getAttributeCallbacks') ? $classMetadata->getReflectionClass()->getMethod('getAttributeCallbacks')->invoke( null ) : NULL;
 
 		foreach ($attributes as $attribute) {
 			$attributeName = (string) $attribute['name'];
@@ -51,26 +49,7 @@ class PhpLoader implements LoaderInterface
 			}
 
 			foreach ($attribute['group'] as $name=>$group) {
-				if(is_array($group) || $group instanceof \Traversable) {
-
-				} else {
-
-				}
 				$attributeMetadata->addGroup((string) $group);
-			}
-
-			if(isset($attribute['convert_name'])) {
-				$attributeMetadata->setConvertedName( $attribute['convert_name'] );
-			}
-
-			if(isset($attribute['flatten'])) {
-				$attributeMetadata->setFlatten( $attribute['flatten'] );
-			}
-
-			// there really is only one callback
-			// @TODO implement callback per group
-			if( $callbacks && isset($callbacks[ $attributeName ]) ){
-				$attributeMetadata->setCallback( $callbacks[ $attributeName ] );
 			}
 		}
 
