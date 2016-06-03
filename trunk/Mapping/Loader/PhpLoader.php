@@ -50,7 +50,12 @@ class PhpLoader implements LoaderInterface
 				$classMetadata->addAttributeMetadata($attributeMetadata);
 			}
 
-			foreach ($attribute['group'] as $group) {
+			foreach ($attribute['group'] as $name=>$group) {
+				if(is_array($group) || $group instanceof \Traversable) {
+
+				} else {
+
+				}
 				$attributeMetadata->addGroup((string) $group);
 			}
 

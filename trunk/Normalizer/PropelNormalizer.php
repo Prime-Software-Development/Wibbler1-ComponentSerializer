@@ -63,7 +63,11 @@ class PropelNormalizer extends AbstractNormalizer
 		$data = array();
 		$attributes_meta = $this->getAttributes($object, $context);
 
+		$meta = isset($context['attribute_meta']) ? $context['attribute_meta'] : array();
+
 		foreach ($attributes_meta as $attribute_meta) {
+			$convert_name = null;
+			$flatten = false;
 			$attribute = $attribute_meta->getName();
 
 			if (in_array($attribute, $this->ignoredAttributes)) {
@@ -72,12 +76,24 @@ class PropelNormalizer extends AbstractNormalizer
 
 			$attributeValue = $this->propertyAccessor->getValue($object, $attribute);
 
-			if (isset($this->callbacks[$attribute])) {
-				$attributeValue = call_user_func($this->callbacks[$attribute], $attributeValue);
-			}
+			// whether the attribute has extra meta data provided
+			if( isset($meta[$attribute])) {
+				$extra_meta = $meta[$attribute];
+				// run callback against the attribute value
+				if( isset($extra_meta['callbacks'])){
+					$callback = $extra_meta['callbacks'];
+					$attributeValue = call_user_func($callback, $attributeValue);
+				}
 
-			if ($callback = $attribute_meta->getCallback()) {
-				$attributeValue = call_user_func($callback, $attributeValue);
+				// convert attribute name
+				if( isset($extra_meta['convert_name']) ){
+					$convert_name = $extra_meta['convert_name'];
+				}
+
+				// whether the attribute ( if array ) should be merged into parent
+				if( isset($extra_meta['flatten']) ){
+					$flatten = $extra_meta['flatten'] === true;
+				}
 			}
 
 			if (null !== $attributeValue && !is_scalar($attributeValue)) {
@@ -88,12 +104,12 @@ class PropelNormalizer extends AbstractNormalizer
 				$attributeValue = $this->serializer->normalize($attributeValue, $format, $context);
 			}
 
-			// whether to merge child object properties into parent data array
-			if( $attribute_meta->getFlatten() ) {
+			// whether to merge child data into parent data array
+			if( is_array( $attributeValue ) && $flatten ) {
 				$data = array_merge( $data, $attributeValue );
 			} else{
-				if ($this->nameConverter) {
-					$attribute = $this->nameConverter->normalize($attribute_meta);
+				if ($convert_name) {
+					$attribute = $convert_name;
 				}
 				$data[$attribute] = $attributeValue;
 			}
