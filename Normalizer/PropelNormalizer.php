@@ -63,7 +63,7 @@ class PropelNormalizer extends AbstractNormalizer
 		$data = array();
 		$attributes_meta = $this->getAttributes($object, $context);
 
-		$meta = isset($context['attribute_meta']) ? $context['attribute_meta'] : array();
+		$meta = isset($context['extra_attribute_meta']) ? $context['extra_attribute_meta'] : array();
 
 		foreach ($attributes_meta as $attribute_meta) {
 			$convert_name = null;
@@ -80,8 +80,8 @@ class PropelNormalizer extends AbstractNormalizer
 			if( isset($meta[$attribute])) {
 				$extra_meta = $meta[$attribute];
 				// run callback against the attribute value
-				if( isset($extra_meta['callbacks'])){
-					$callback = $extra_meta['callbacks'];
+				if( isset($extra_meta['callback'])){
+					$callback = $extra_meta['callback'];
 					$attributeValue = call_user_func($callback, $attributeValue);
 				}
 
