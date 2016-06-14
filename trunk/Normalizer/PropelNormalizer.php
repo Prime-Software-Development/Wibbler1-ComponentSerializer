@@ -68,6 +68,7 @@ class PropelNormalizer extends AbstractNormalizer
 		foreach ($attributes_meta as $attribute_meta) {
 			$convert_name = null;
 			$flatten = false;
+			$post_normalize = null;
 			$attribute = $attribute_meta->getName();
 
 			if (in_array($attribute, $this->ignoredAttributes)) {
@@ -94,6 +95,11 @@ class PropelNormalizer extends AbstractNormalizer
 				if( isset($extra_meta['flatten']) ){
 					$flatten = $extra_meta['flatten'] === true;
 				}
+
+				// run callback after normalization
+				if( isset($extra_meta['post_normalize']) ){
+					$post_normalize = $extra_meta['post_normalize'];
+				}
 			}
 
 			if (null !== $attributeValue && !is_scalar($attributeValue)) {
@@ -108,6 +114,10 @@ class PropelNormalizer extends AbstractNormalizer
 				}
 
 				$attributeValue = $this->serializer->normalize($attributeValue, $format, $attributeContext);
+			}
+
+			if(is_callable($post_normalize)) {
+				$attributeValue = call_user_func($post_normalize, $attributeValue);
 			}
 
 			// whether to merge child data into parent data array
