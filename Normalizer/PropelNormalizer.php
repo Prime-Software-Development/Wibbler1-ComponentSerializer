@@ -101,7 +101,13 @@ class PropelNormalizer extends AbstractNormalizer
 					throw new LogicException(sprintf('Cannot normalize attribute "%s" because injected serializer is not a normalizer', $attribute));
 				}
 
-				$attributeValue = $this->serializer->normalize($attributeValue, $format, $context);
+				// check for attribute specific context options
+				$attributeContext = $context;
+				if( isset($extra_meta[ 'context' ]) ) {
+					$attributeContext = $extra_meta['context'];
+				}
+
+				$attributeValue = $this->serializer->normalize($attributeValue, $format, $attributeContext);
 			}
 
 			// whether to merge child data into parent data array
