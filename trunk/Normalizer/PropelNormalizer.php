@@ -83,7 +83,7 @@ class PropelNormalizer extends AbstractNormalizer
 				// run callback against the attribute value
 				if( isset($extra_meta['callback'])){
 					$callback = $extra_meta['callback'];
-					$attributeValue = call_user_func($callback, $attributeValue);
+					$attributeValue = call_user_func($callback, $attributeValue, $object);
 				}
 
 				// convert attribute name
