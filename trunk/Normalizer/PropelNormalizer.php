@@ -137,6 +137,14 @@ class PropelNormalizer extends AbstractNormalizer
 			}
 		}
 
+		// run callback on the object it self
+		if( isset($context['callback']) ){
+			$callback = $context['callback'];
+			if( is_callable( $callback ) ) {
+				$data = call_user_func($callback, $object, $data);
+			}
+		}
+
 		return $data;
 	}
 
