@@ -11,10 +11,12 @@ use Symfony\Component\Serializer\Exception\CircularReferenceException;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface;
 
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 
 use Propel\Runtime\Collection\ObjectCollection as PropelCollection;
+use TrunkSoftware\Component\Serializer\Mapping\AttributeMetadata;
 
 /**
  * Converts between objects and arrays using the PropertyAccess component.
@@ -69,7 +71,11 @@ class PropelNormalizer extends AbstractNormalizer
 			$convert_name = null;
 			$flatten = false;
 			$post_normalize = null;
-			$attribute = $attribute_meta->getName();
+			$attribute = $attribute_meta;
+
+			if( $attribute_meta instanceof AttributeMetadataInterface) {
+				$attribute = $attribute_meta->getName();
+			}
 
 			if (in_array($attribute, $this->ignoredAttributes)) {
 				continue;
