@@ -1,5 +1,5 @@
 <?php
-namespace TrunkSoftware\Component\Serializer\Normalizer;
+namespace Trunk\Component\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 
 use Propel\Runtime\Collection\ObjectCollection as PropelCollection;
-use TrunkSoftware\Component\Serializer\Mapping\AttributeMetadata;
+use Trunk\Component\Serializer\Mapping\AttributeMetadata;
 
 /**
  * Converts between objects and arrays using the PropertyAccess component.

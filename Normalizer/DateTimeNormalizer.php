@@ -1,5 +1,5 @@
 <?php
-namespace TrunkSoftware\Component\Serializer\Normalizer;
+namespace Trunk\Component\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 

@@ -1,5 +1,5 @@
 <?php
-namespace TrunkSoftware\Component\Serializer\Mapping;
+namespace Trunk\Component\Serializer\Mapping;
 
 use Symfony\Component\Serializer\Mapping\AttributeMetadata as BaseAttributeMetadata;
 use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface;

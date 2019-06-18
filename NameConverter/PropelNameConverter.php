@@ -1,5 +1,5 @@
 <?php
-namespace TrunkSoftware\Component\Serializer\NameConverter;
+namespace Trunk\Component\Serializer\NameConverter;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Symfony\Component\Serializer\Mapping\AttributeMetadata;

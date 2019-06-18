@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace TrunkSoftware\Component\Serializer\Mapping\Loader;
+namespace Trunk\Component\Serializer\Mapping\Loader;
 
 use Symfony\Component\Serializer\Mapping\Loader\LoaderInterface;
 
@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Exception\MappingException;
 #use Symfony\Component\Serializer\Mapping\AttributeMetadata;
 use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
 
-use TrunkSoftware\Component\Serializer\Mapping\AttributeMetadata;
+use Trunk\Component\Serializer\Mapping\AttributeMetadata;
 
 /**
  * Loads XML mapping files.
