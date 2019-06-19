@@ -12,9 +12,9 @@
 	],
 	"require": {
 		"php": ">=7",
-		"symfony/serializer": "~2.8|~3.0",
-		"symfony/config": "~2.8|~3.0",
-		"symfony/property-access": "~2.8|~3.0"
+		"symfony/serializer": "4.*",
+		"symfony/config": "4.*",
+		"symfony/property-access": "4.*"
 	},
 	"autoload": {
 		"psr-4": { "Trunk\\Component\\Serializer\\": "" },
