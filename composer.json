@@ -1,25 +1,26 @@
 {
-	"name": "trunk/serializer",
-	"type": "library",
-	"description": "TrunkSoftware Serializer Component",
-	"homepage": "http://www.trunknetworks.com/",
-	"keywords": [],
-	"authors": [
-		{
-		  "name": "Chris Weller",
-		  "email": "chris.weller@trunknetworks.com"
-		}
-	],
-	"require": {
-		"php": ">=7",
-		"symfony/serializer": "4.*",
-		"symfony/config": "4.*",
-		"symfony/property-access": "4.*"
-	},
-	"autoload": {
-		"psr-4": { "Trunk\\Component\\Serializer\\": "" },
-		"exclude-from-classmap": [
-			"/Tests/"
-		]
+  "name": "primesoftwaredevelopment/serializer",
+  "type": "library",
+  "description": "Prime Software Development Serializer Component",
+  "homepage": "http://www.primesoftwaredevelopment.co.uk/",
+  "authors": [
+	{
+	  "name": "Chris Weller",
+	  "email": "chris.weller@trunknetworks.com"
 	}
+  ],
+  "require": {
+	"php": ">=7",
+	"symfony/serializer": "4.*",
+	"symfony/config": "4.*",
+	"symfony/property-access": "4.*"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Trunk\\Component\\Serializer\\": ""
+	},
+	"exclude-from-classmap": [
+	  "/Tests/"
+	]
+  }
 }
