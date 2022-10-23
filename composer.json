@@ -11,9 +11,9 @@
   ],
   "require": {
 	"php": ">=7",
-	"symfony/serializer": "4.*",
-	"symfony/config": "4.*",
-	"symfony/property-access": "4.*"
+	"symfony/serializer": ">=4.0",
+	"symfony/config": ">=4.0",
+	"symfony/property-access": ">=4.0"
   },
   "autoload": {
 	"psr-4": {
